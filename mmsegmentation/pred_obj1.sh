@@ -7,7 +7,7 @@ python predict_image.py \
 
 # visualize
 python visualize.py \
-       --mode twohands_obj1 \
+       --mode twohands \
        --img_dir ../testimages/images \
        --twohands_dir ../testimages/pred_twohands \
        --obj1_dir ../testimages/pred_obj1 \

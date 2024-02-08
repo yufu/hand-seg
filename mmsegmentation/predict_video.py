@@ -66,65 +66,10 @@ print('Predicting contact boundary......')
 print(cmd_pred_cb)
 os.system(cmd_pred_cb)
 
-if args.mode == 'obj1':
-    # predict obj1
-    cmd_pred_obj1 = 'python predict_image.py \
-                        --config_file %s \
-                        --checkpoint_file %s \
-                        --img_dir %s \
-                        --pred_seg_dir %s' % (args.obj1_config_file, args.obj1_checkpoint_file, video_image_dir, video_obj1_dir)
-
-    print('Predicting 1st order interacting objects......')
-    print(cmd_pred_obj1)
-    os.system(cmd_pred_obj1)
-elif args.mode == 'obj2':
-    # predict obj2
-    cmd_pred_obj2 = 'python predict_image.py \
-                        --config_file %s \
-                        --checkpoint_file %s \
-                        --img_dir %s \
-                        --pred_seg_dir %s' % (args.obj2_config_file, args.obj2_checkpoint_file, video_image_dir, video_obj2_dir)
-
-    print('Predicting 2nd order interacting objects......')
-    print(cmd_pred_obj2)
-    os.system(cmd_pred_obj2)
-else:
-    raise notimplementederror
-
-# stitch prediction into a video
-print('stitch prediction into a video......')
 writer = imageio.get_writer(args.output_video_file, fps = fps)
 for img_file in tqdm(sorted(glob.glob(video_image_dir + '/*'))):
     fname = os.path.basename(img_file).split('.')[0]
     twohands_file = os.path.join(video_twohands_dir, fname + '.png')
-
-    if args.mode == 'obj1':
-        obj1_file = os.path.join(video_obj1_dir, fname + '.png')
-        img = np.array(Image.open(img_file))
-        twohands = np.array(Image.open(twohands_file))
-        obj1 = np.array(Image.open(obj1_file))
-        twohands_obj1 = twohands.copy()
-        twohands_obj1[obj1 == 1] = 3
-        twohands_obj1[obj1 == 2] = 4
-        twohands_obj1[obj1 == 3] = 5
-        twohands_obj1_vis = visualize_twohands_obj1(img, twohands_obj1)
-        writer.append_data(twohands_obj1_vis)
-    elif args.mode == 'obj2':
-        obj2_file = os.path.join(video_obj2_dir, fname + '.png')
-        img = np.array(Image.open(img_file))
-        twohands = np.array(Image.open(twohands_file))
-        obj2 = np.array(Image.open(obj2_file))
-        twohands_obj2 = twohands.copy()
-        twohands_obj2[obj2 == 1] = 3
-        twohands_obj2[obj2 == 2] = 4
-        twohands_obj2[obj2 == 3] = 5
-        twohands_obj2[obj2 == 4] = 6
-        twohands_obj2[obj2 == 5] = 7
-        twohands_obj2[obj2 == 6] = 8
-        twohands_obj2_vis = visualize_twohands_obj2(img, twohands_obj2)
-        writer.append_data(twohands_obj2_vis)
-    else:
-        raise notimplementederror
 
 writer.close()
 
