@@ -28,7 +28,7 @@
 
 # rgb -> twohands
 #python -m pdb tools/train.py ./configs/swin/seg_twohands.py # single gpu test
- ./tools/dist_train.sh ./configs/swin/seg_twohands.py 4
+./tools/dist_train.sh ./configs/swin/seg_twohands.py 4
 # ./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 4
 
 
