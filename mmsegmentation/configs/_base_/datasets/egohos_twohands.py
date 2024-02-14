@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'EgoHOSDataset'
-data_root = '/mnt/session_space/home/lingzzha/EgoHOS/data'
+data_root = '/home/yuf5/EgoHOS/data'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (360, 480)
@@ -38,19 +38,19 @@ data = dict(
         type=dataset_type,
         data_root=data_root,
         img_dir='train/image',
-        ann_dir='train/label_twohands',
+        ann_dir='train/label',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         data_root=data_root,
         img_dir='val/image',
-        ann_dir='val/label_twohands',
+        ann_dir='val/label',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         data_root=data_root,
         img_dir='test_indomain/image',
-        ann_dir='test_indomain/label_twohands',
+        ann_dir='test_indomain/label',
         pipeline=test_pipeline))
 
 

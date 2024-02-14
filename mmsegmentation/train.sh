@@ -27,9 +27,9 @@
 
 
 # rgb -> twohands
-# python tools/train.py ./configs/swin/seg_twohands_ccda.py # single gpu test
-# ./tools/dist_train.sh ./configs/swin/seg_twohands.py 8
-# ./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 8
+#python -m pdb tools/train.py ./configs/swin/seg_twohands.py # single gpu test
+ ./tools/dist_train.sh ./configs/swin/seg_twohands.py 4
+# ./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 4
 
 
 ### Sequential Model ###
@@ -54,7 +54,7 @@
 
 # rgb + twohands + cb -> obj2 (CCDA)                                              [*]
 # python tools/train.py ./configs/swin/twohands_cb_to_obj2_ccda.py # single gpu test
-./tools/dist_train.sh ./configs/swin/twohands_cb_to_obj2_ccda.py 8
+# ./tools/dist_train.sh ./configs/swin/twohands_cb_to_obj2_ccda.py 8
 
 # rgb + twohands + cb -> obj1                                                     [TODO]
 # python tools/train.py ./configs/swin/twohands_cb_to_obj1.py # single gpu test

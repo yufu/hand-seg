@@ -17,7 +17,7 @@ import numpy as np
 from torchvision.transforms.functional import to_tensor
 from torchvision.utils import save_image
 
-additional_channel = 'twohands_cb'
+additional_channel = 'simple_two_hands'
 use_ccda = True
 
 @SEGMENTORS.register_module()
@@ -285,18 +285,23 @@ class EncoderDecoder(BaseSegmentor):
             dict[str, Tensor]: a dictionary of loss components
         """
 
+        if additional_channel == 'simple_two_hands':
 
-        if additional_channel == 'twohands':
+            cat_input = img
+            x = self.extract_feat(cat_input)
+
+
+        elif additional_channel == 'twohands':
                     
             img_h, img_w = img.shape[2], img.shape[3]; target_aspect_ratio = img_h / img_w
             aux_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
             for i in range(img.shape[0]):
                 img_file = img_metas[i]['filename']
                 if use_ccda:
-                    path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands_ccda')
+                    path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'image')
                 else:
-                    path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands')
-                fname = os.path.basename(img_file).split('.')[0] + '.png'
+                    path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'image')
+                fname = os.path.basename(img_file).split('.')[0] + '.jpg'
                 aux_file = os.path.join(path, fname)
 
                 aux = Image.open(aux_file); aux_w, aux_h = aux.size[0], aux.size[1]
