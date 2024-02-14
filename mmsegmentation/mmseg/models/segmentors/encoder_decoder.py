@@ -82,74 +82,74 @@ class EncoderDecoder(BaseSegmentor):
     def encode_decode(self, img, img_metas):
         """Encode images with backbone and decode into a semantic segmentation
         map of the same size as input."""
-        if img_metas[0]['additional_channel'] == 'simple_two_hands':
-
-            cat_input = img
-            x = self.extract_feat(cat_input)
-        elif img_metas[0]['additional_channel'] == 'twohands':
-            
-            img_h, img_w = img.shape[2], img.shape[3]; target_aspect_ratio = img_h / img_w
-            aux_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
-            for i in range(img.shape[0]):
-                img_file = img_metas[i]['filename']
-                # path = img_metas[i]['twohands_dir']
-                path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands')
-                fname = os.path.basename(img_file).split('.')[0] + '.png'
-                aux_file = os.path.join(path, fname)
-
-                aux = Image.open(aux_file); aux_w, aux_h = aux.size[0], aux.size[1]
-                if aux_h / aux_w < target_aspect_ratio:
-                    new_aux_h = int(target_aspect_ratio * aux_w)
-                    aux = ImageOps.pad(aux, (aux_w, new_aux_h), centering=(0,0))
-                else:
-                    new_aux_w = int(aux_h / target_aspect_ratio)
-                    aux = ImageOps.pad(aux, (new_aux_w, aux_h), centering=(0,0))
-
-                aux = torch.from_numpy(np.array(aux.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
-                aux_list[i] = aux
-
-            cat_input = torch.cat([img, aux_list], dim = 1)
-            x = self.extract_feat(cat_input)
-
-        elif img_metas[0]['additional_channel'] == 'twohands_cb':
-            
-            img_h, img_w = img.shape[2], img.shape[3]; target_aspect_ratio = img_h / img_w
-            aux_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
-            cb_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
-            for i in range(img.shape[0]):
-                img_file = img_metas[i]['filename']
-                # aux_path = img_metas[i]['twohands_dir']
-                aux_path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands')
-                # cb_path = img_metas[i]['cb_dir']
-                cb_path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_cb')
-                fname = os.path.basename(img_file).split('.')[0] + '.png'
-                aux_file = os.path.join(aux_path, fname)
-                cb_file = os.path.join(cb_path, fname)
-
-                aux = Image.open(aux_file); aux_w, aux_h = aux.size[0], aux.size[1]
-                cb = Image.open(cb_file); cb_w, cb_h = cb.size[0], cb.size[1]
-                if aux_h / aux_w < target_aspect_ratio:
-                    new_aux_h = int(target_aspect_ratio * aux_w)
-                    aux = ImageOps.pad(aux, (aux_w, new_aux_h), centering=(0,0))
-                    cb = ImageOps.pad(cb, (aux_w, new_aux_h), centering=(0,0))
-                else:
-                    new_aux_w = int(aux_h / target_aspect_ratio)
-                    aux = ImageOps.pad(aux, (new_aux_w, aux_h), centering=(0,0))
-                    cb = ImageOps.pad(cb, (new_aux_w, aux_h), centering=(0,0))
-
-                aux = torch.from_numpy(np.array(aux.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
-                aux_list[i] = aux
-                cb = torch.from_numpy(np.array(cb.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
-                cb_list[i] = cb
-            
-            # print('pdb @ encoder_decoder.py 144'); import pdb; pdb.set_trace()
-            
-            cat_input = torch.cat([img, aux_list, cb_list], dim = 1)
-            x = self.extract_feat(cat_input)
-
-        else:
-
-            x = self.extract_feat(img)
+        # if img_metas[0]['additional_channel'] == 'simple_two_hands':
+        #
+        #     cat_input = img
+        #     x = self.extract_feat(cat_input)
+        # elif img_metas[0]['additional_channel'] == 'twohands':
+        #
+        #     img_h, img_w = img.shape[2], img.shape[3]; target_aspect_ratio = img_h / img_w
+        #     aux_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
+        #     for i in range(img.shape[0]):
+        #         img_file = img_metas[i]['filename']
+        #         # path = img_metas[i]['twohands_dir']
+        #         path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands')
+        #         fname = os.path.basename(img_file).split('.')[0] + '.png'
+        #         aux_file = os.path.join(path, fname)
+        #
+        #         aux = Image.open(aux_file); aux_w, aux_h = aux.size[0], aux.size[1]
+        #         if aux_h / aux_w < target_aspect_ratio:
+        #             new_aux_h = int(target_aspect_ratio * aux_w)
+        #             aux = ImageOps.pad(aux, (aux_w, new_aux_h), centering=(0,0))
+        #         else:
+        #             new_aux_w = int(aux_h / target_aspect_ratio)
+        #             aux = ImageOps.pad(aux, (new_aux_w, aux_h), centering=(0,0))
+        #
+        #         aux = torch.from_numpy(np.array(aux.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
+        #         aux_list[i] = aux
+        #
+        #     cat_input = torch.cat([img, aux_list], dim = 1)
+        #     x = self.extract_feat(cat_input)
+        #
+        # elif img_metas[0]['additional_channel'] == 'twohands_cb':
+        #
+        #     img_h, img_w = img.shape[2], img.shape[3]; target_aspect_ratio = img_h / img_w
+        #     aux_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
+        #     cb_list = torch.zeros((img.shape[0], 1, img.shape[2], img.shape[3])).to(img.device)
+        #     for i in range(img.shape[0]):
+        #         img_file = img_metas[i]['filename']
+        #         # aux_path = img_metas[i]['twohands_dir']
+        #         aux_path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_twohands')
+        #         # cb_path = img_metas[i]['cb_dir']
+        #         cb_path = os.path.join(os.path.dirname(os.path.dirname(img_file)), 'pred_cb')
+        #         fname = os.path.basename(img_file).split('.')[0] + '.png'
+        #         aux_file = os.path.join(aux_path, fname)
+        #         cb_file = os.path.join(cb_path, fname)
+        #
+        #         aux = Image.open(aux_file); aux_w, aux_h = aux.size[0], aux.size[1]
+        #         cb = Image.open(cb_file); cb_w, cb_h = cb.size[0], cb.size[1]
+        #         if aux_h / aux_w < target_aspect_ratio:
+        #             new_aux_h = int(target_aspect_ratio * aux_w)
+        #             aux = ImageOps.pad(aux, (aux_w, new_aux_h), centering=(0,0))
+        #             cb = ImageOps.pad(cb, (aux_w, new_aux_h), centering=(0,0))
+        #         else:
+        #             new_aux_w = int(aux_h / target_aspect_ratio)
+        #             aux = ImageOps.pad(aux, (new_aux_w, aux_h), centering=(0,0))
+        #             cb = ImageOps.pad(cb, (new_aux_w, aux_h), centering=(0,0))
+        #
+        #         aux = torch.from_numpy(np.array(aux.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
+        #         aux_list[i] = aux
+        #         cb = torch.from_numpy(np.array(cb.resize((img_w, img_h)))).unsqueeze(0).to(img[i].device).float()
+        #         cb_list[i] = cb
+        #
+        #     # print('pdb @ encoder_decoder.py 144'); import pdb; pdb.set_trace()
+        #
+        #     cat_input = torch.cat([img, aux_list, cb_list], dim = 1)
+        #     x = self.extract_feat(cat_input)
+        #
+        # else:
+        #
+        x = self.extract_feat(img)
 
 
 
