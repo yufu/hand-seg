@@ -12,16 +12,16 @@ def visualize_twohands(img, seg_result, alpha = 0.4):
     seg_color[seg_result == 0] = (0,    0,   0)     # background
     seg_color[seg_result == 1] = (255,  255,   255)     # left_hand
     seg_color[seg_result == 2] = (255,    255,   255)   # right_hand
-    hands[seg_result == 1] = (1,1,1)
-    hands[seg_result == 2] = (1,1,1)
+    #hands[seg_result == 1] = (1,1,1)
+    #hands[seg_result == 2] = (1,1,1)
 
-    hands = img * hands
+    #hands = img * hands
     # remove unskin
-    R, G, B = hands[:,:,0], hands[:,:,1], hands[:,:,2]
-    condition = (R > 95) & (G > 40) & (B > 20) & (R > G) & (R > B) & (np.maximum(R, np.maximum(G, B)) - np.minimum(R, np.minimum(G, B)) > 15) & (np.abs(R - G) > 15)
-    mask = np.zeros_like(hands) 
-    mask[condition] = (1,1,1) # if skin, mask = 1
-    seg_color = seg_color * mask # select skin part in hand
+    #R, G, B = hands[:,:,0], hands[:,:,1], hands[:,:,2]
+    #condition = (R > 95) & (G > 40) & (B > 20) & (R > G) & (R > B) & (np.maximum(R, np.maximum(G, B)) - np.minimum(R, np.minimum(G, B)) > 15) & (np.abs(R - G) > 15)
+    #mask = np.zeros_like(hands) 
+    #mask[condition] = (1,1,1) # if skin, mask = 1
+    #seg_color = seg_color * mask # select skin part in hand
 
     vis = img + seg_color 
     vis = np.clip(vis, a_min=0, a_max=255)
