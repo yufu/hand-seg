@@ -1,2 +1,2 @@
-_base_ = './deeplabv3_r50-d8_4xb4-160k_ade20k-512x512.py'
-model = dict(pretrained='./pretrained/', backbone=dict(depth=101))
+_base_ = './deeplabv3plus_r50-d8_512x512_80k_ade20k.py'
+model = dict(pretrained='/impacs/yuf5/EgoHOS/mmsegmentation/pretrain/deeplabv3plus_r101-d8_512x512_80k_ade20k_20200615_014139-d5730af7.pth', backbone=dict(depth=101))
