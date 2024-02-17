@@ -1,3 +1,4 @@
+*.mp4
 *.jpg
 *.png
 
@@ -12,5 +13,5 @@
 /data_to_release
 /testimages
 /testvideos
-
+test_video*
 /mmsegmentation/work_dirs_exp

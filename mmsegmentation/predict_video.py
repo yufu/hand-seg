@@ -15,9 +15,9 @@ from visualize import visualize_twohands
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--mode", default='obj1', type=str, help='options: obj1, obj2')
 parser.add_argument("--input_video_file", default='../testvideos/testvideo1_short.mp4', type=str)
-parser.add_argument("--output_video_file", default='../testvideos/testvideo1_short_result_big.mp4', type=str)
+parser.add_argument("--output_video_file", default='../testvideos/testvideo1_short_result_big_80000s.mp4', type=str)
 parser.add_argument("--twohands_config_file", default='./work_dirs/seg_twohands/seg_twohands.py', type=str)
-parser.add_argument("--twohands_checkpoint_file", default='./work_dirs/seg_twohands/iter_48000.pth', type=str)
+parser.add_argument("--twohands_checkpoint_file", default='./work_dirs/seg_twohands/iter_80000.pth', type=str)
 parser.add_argument("--remove_intermediate_images", default=False, type=bool)
 args = parser.parse_args()
 
