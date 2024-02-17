@@ -11,7 +11,7 @@ def visualize_twohands(img, seg_result, alpha = 0.4):
     hands = np.zeros((img.shape))
     seg_color[seg_result == 0] = (0,    0,   0)     # background
     seg_color[seg_result == 1] = (255,  255,   255)     # left_hand
-    seg_color[seg_result == 2] = (255,    255,   255)   # right_hand
+    # seg_color[seg_result == 2] = (255,    255,   255)   # right_hand
     #hands[seg_result == 1] = (1,1,1)
     #hands[seg_result == 2] = (1,1,1)
 
@@ -31,7 +31,7 @@ def visualize_twohands_skin(img, seg_result, alpha = 0.4):
     seg_color = np.zeros((img.shape))
     seg_color[seg_result == 0] = (0,    0,   0)     # background
     seg_color[seg_result == 1] = (255,  255,   255)     # left_hand
-    seg_color[seg_result == 2] = (255,    255,   255)   # right_hand
+    # seg_color[seg_result == 2] = (255,    255,   255)   # right_hand
     vis = img + seg_color 
     
     return vis
