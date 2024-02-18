@@ -18,13 +18,9 @@ class EgoHOSDataset(CustomDataset):
     # PALETTE = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128],
     #            [128, 0, 128]]
 
-    CLASSES = ('background', 'Left_Hand', 'Right_Hand', \
-               'Left_Object1', 'Right_Object1', 'Two_Object1', \
-               'Left_Object2', 'Right_Object2', 'Two_Object2')
+    CLASSES = ('background', 'Left_Hand', 'Right_Hand')
 
-    PALETTE = [[0, 0, 0], [255, 0, 0], [0, 0, 255], \
-               [255, 0, 255], [0, 255, 255], [0, 255, 0], \
-               [255, 204, 255], [204, 255, 255], [204, 255, 204]]
+    PALETTE = [[0, 0, 0], [255, 0, 0], [0, 0, 255]]
 
     def __init__(self, **kwargs):
         super(EgoHOSDataset, self).__init__(
