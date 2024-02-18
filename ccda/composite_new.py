@@ -10,6 +10,7 @@ from scipy.spatial.distance import cosine
 import random
 from shutil import copyfile
 import argparse
+import torch
 
 parser = argparse.ArgumentParser(description="composite")
 parser.add_argument("--aug_numbers", default=3, type=int)
@@ -30,35 +31,33 @@ os.system('rm -rf ' + args.aug_img_dir); os.makedirs(args.aug_img_dir, exist_ok 
 os.system('rm -rf ' + args.aug_lbl_dir); os.makedirs(args.aug_lbl_dir, exist_ok = True)
 
 # Load combine features into a list
+print('Loading features')
 fname_list = []
 feature_list = []
+features = torch.empty((0)).to('cuda')
 for file in glob.glob(args.lama_feat_dir + '/*'):
     fname = os.path.basename(file).split('.')[0]
     feature = np.load(file)
     # print(feature.shape)
-    feature_list.append(feature)    
+    features = torch.cat((features, torch.tensor(feature).unsqueeze(0).to('cuda')))
     fname_list.append(fname)
 
-
-
+print("composite images and generate labels")
 # composite images and generate labels
 for file in tqdm(glob.glob(args.lama_feat_dir + '/*')): 
 
     query_fname = os.path.basename(file).split('.')[0]
-    query_feature = np.load(file)
+    query_feature = torch.tensor(np.load(file)).to('cuda')
 
-    score_list = []
-    for feature in feature_list:
-        score = cosine(query_feature, feature)
-        if score != 0.0:
-            score_list.append(score)
+    cos = torch.nn.CosineSimilarity(dim=1, eps=1e-6)
+    cosine_similarity = cos(features, query_feature.unsqueeze(0))
 
-    sorted_index_list = np.argsort(np.array(score_list))
-    
+    sorted_index = torch.argsort(cosine_similarity)
+
     if args.random_aug:
-        top_k_sorted_index_list = sorted_index_list
+        top_k_sorted_index_list = sorted_index
     else:
-        top_k_sorted_index_list = sorted_index_list[:args.top_k]
+        top_k_sorted_index_list = sorted_index[:args.top_k]
     
     for aug_idx in range(args.aug_numbers):
         
@@ -68,12 +67,13 @@ for file in tqdm(glob.glob(args.lama_feat_dir + '/*')):
             index = top_k_sorted_index_list[sample_idx]
             select_fname = fname_list[index]
 
-            query_img = np.array(Image.open(os.path.join(args.img_dir, query_fname + '.jpg')))
+            query_img = Image.open(os.path.join(args.img_dir, query_fname + '.jpg'))
+            shape = query_img.size
+            query_img = np.array(query_img)
             query_lbl = np.array(Image.open(os.path.join(args.lbl_dir, query_fname + '.png')))
             query_msk = np.zeros((query_lbl.shape)); query_msk[query_lbl>0] = 1
             query_msk = np.repeat(np.expand_dims(query_msk, 2), 3, 2)
-            select_img = np.array(Image.open(os.path.join(args.lama_dir, select_fname + '.jpg')))
-
+            select_img = np.array(Image.open(os.path.join(args.lama_dir, select_fname + '.jpg')).resize(shape))
             if query_img.shape == select_img.shape:
                 size_match = True
         

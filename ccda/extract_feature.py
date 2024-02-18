@@ -20,8 +20,8 @@ tsfm = transforms.Compose([
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
 
-lama_dir = '/mnt/session_space/home/lingzzha/EgoHOS/data/train/lama_512'
-lama_feat_dir = '/mnt/session_space/home/lingzzha/EgoHOS/data/train/lama_512_feature'
+lama_dir = '/impacs/yuf5/EgoHOS/data/background_all'
+lama_feat_dir = '/impacs/yuf5/EgoHOS/data/lama_512_feature_all'
 os.makedirs(lama_feat_dir, exist_ok = True)
 
 for file in tqdm(glob.glob(lama_dir + '/*')):

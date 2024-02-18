@@ -70,10 +70,10 @@ def convert_and_save(vis_paths, save_path):
 
 if __name__ == "__main__":
 
-    vis_paths = list(Path('all_raw').glob('*_draw.jpg'))
-    train_paths, val_paths, test_paths = split_data(vis_paths, 0.8, 0.1)
-    save_path = Path('/mnt/volume2/Data/zlz/EgoHandObject/data/epic/obj1_hand_2k')
+    vis_paths = list(Path('/impacs/yuf5/EgoHOS/data/train/image').glob('*.jpg'))
+    # train_paths, val_paths, test_paths = split_data(vis_paths, 0.8, 0.1)
+    save_path = Path('/impacs/yuf5/EgoHOS/data/ccda')
     convert_and_save(train_paths, save_path.joinpath('train'))
-    convert_and_save(val_paths, save_path.joinpath('val'))
-    convert_and_save(test_paths, save_path.joinpath('test'))
+    # convert_and_save(val_paths, save_path.joinpath('val'))
+    # convert_and_save(test_paths, save_path.joinpath('test'))
 
