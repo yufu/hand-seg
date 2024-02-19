@@ -28,7 +28,7 @@
 
 # rgb -> twohands
 #python tools/train.py ./configs/swin/seg_twohands_ccda.py  --work-dir ./work_dirs/seg_twohands_ccda_3cls
-./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 2 ./work_dirs/seg_twohands_lama_ccda
+./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 4 ./work_dirs/seg_twohands_lama_ccda_3cls
 # ./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 4
 
 
