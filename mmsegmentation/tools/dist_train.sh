@@ -1,5 +1,6 @@
 CONFIG=$1
 GPUS=$2
+WORKDIR=$3
 NNODES=${NNODES:-1}
 NODE_RANK=${NODE_RANK:-0}
 PORT=${PORT:-29500}
@@ -14,4 +15,5 @@ python -m torch.distributed.launch \
     --master_port=$PORT \
     $(dirname "$0")/train.py \
     $CONFIG \
-    --launcher pytorch ${@:3}
+    --work-dir $WORKDIR \
+    --launcher pytorch ${@:4}

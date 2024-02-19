@@ -20,10 +20,10 @@ parser.add_argument("--hr_img_dir", default='/impacs/yuf5/EgoHOS/data/train/imag
 parser.add_argument("--hr_lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label', type=str)
 parser.add_argument("--img_dir", default='/impacs/yuf5/EgoHOS/data/train/image', type=str)
 parser.add_argument("--lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label', type=str)
-parser.add_argument("--lama_dir", default='/impacs/yuf5/EgoHOS/data/background', type=str)
+parser.add_argument("--lama_dir", default='/impacs/yuf5/EgoHOS/data/background_lama', type=str)
 parser.add_argument("--lama_feat_dir", default='/impacs/yuf5/EgoHOS/data/lama_512_feature', type=str)
-parser.add_argument("--aug_img_dir", default='/impacs/yuf5/EgoHOS/data/train/image_ccda', type=str)
-parser.add_argument("--aug_lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label_ccda', type=str)
+parser.add_argument("--aug_img_dir", default='/impacs/yuf5/EgoHOS/data/train/image_lama_ccda', type=str)
+parser.add_argument("--aug_lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label_lama_ccda', type=str)
 args = parser.parse_args()
 
 os.system('rm -rf ' + args.aug_img_dir); os.makedirs(args.aug_img_dir, exist_ok = True)
@@ -86,7 +86,7 @@ for file in tqdm(glob.glob(args.lama_feat_dir + '/*')):
             new_img = hr_query_img * hr_query_msk + hr_select_img * (1 - hr_query_msk)
         else:
             new_img = query_img * query_msk + select_img * (1 - query_msk)
-        
+
         imsave(os.path.join(args.aug_img_dir, query_fname + '_' + str(aug_idx) + '.jpg'), new_img)
         src_lbl_file = os.path.join(args.lbl_dir, query_fname + '.png')
         dst_lbl_file = os.path.join(args.aug_lbl_dir, query_fname + '_' + str(aug_idx) + '.png')

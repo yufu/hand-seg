@@ -7,7 +7,9 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="resize image using bicubic upsampling")
-parser.add_argument("--img_dir", default='/mnt/session_space/home/lingzzha/EgoHOS/data/train/lama_512_pad', type=str)
+parser.add_argument("--img_dir", default='/impacs/yuf5/EgoHOS/data/lama_512_feature', type=str)
+
+clean_type='mask.npy'
 args = parser.parse_args()
 
 
@@ -18,7 +20,7 @@ for file in tqdm(glob.glob(args.img_dir + '/*')):
 
     # pdb.set_trace()
  
-    if 'mask.png' in val_list:
+    if clean_type in val_list:
             
         fname = val_list[0]
         for i in range(1,len(val_list)-1):
