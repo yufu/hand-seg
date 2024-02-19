@@ -14,16 +14,16 @@ import torch
 import random
 
 parser = argparse.ArgumentParser(description="composite")
-parser.add_argument("--aug_numbers", default=5, type=int)
+parser.add_argument("--aug_numbers", default=3, type=int)
 parser.add_argument("--top_k", default=10, type=int)
 parser.add_argument("--random_aug", default=True, type=bool)
 parser.add_argument("--composite_hr", default=True, type=bool)
 parser.add_argument("--img_dir", default='/impacs/yuf5/EgoHOS/data/train/image', type=str)
-parser.add_argument("--lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label', type=str)
+parser.add_argument("--lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label3', type=str)
 parser.add_argument("--lama_dir", default='/impacs/yuf5/EgoHOS/data/background_all', type=str)
 parser.add_argument("--lama_feat_dir", default='/impacs/yuf5/EgoHOS/data/lama_512_feature_all', type=str)
-parser.add_argument("--aug_img_dir", default='/impacs/yuf5/EgoHOS/data/train/image_ccda_all', type=str)
-parser.add_argument("--aug_lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label_ccda_all', type=str)
+parser.add_argument("--aug_img_dir", default='/impacs/yuf5/EgoHOS/data/train/image_ccda_all_3cls', type=str)
+parser.add_argument("--aug_lbl_dir", default='/impacs/yuf5/EgoHOS/data/train/label_ccda_all_3cls', type=str)
 args = parser.parse_args()
 
 os.system('rm -rf ' + args.aug_img_dir); os.makedirs(args.aug_img_dir, exist_ok = True)
@@ -68,6 +68,7 @@ for file in tqdm(query_files):
                 size_match = True
 
             new_img = query_img * query_msk + select_img * (1 - query_msk)
+            new_img = new_img.astype(np.uint8)
 
         
         imsave(os.path.join(args.aug_img_dir, file + '_' + str(aug_idx) + '.jpg'), new_img)

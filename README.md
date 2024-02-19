@@ -194,7 +194,22 @@ If you use this code for your research, please cite our paper:
   organization={Springer}
 }
 ```
+### How to prepare ccda data
+1. Download lama (https://github.com/saic-mdal/lama)
+2. Dilate masks and put image & mask in one folder
+3. Run Lama to get the removed hand background
+4. python ccda/extract_feature.py to generate background features
+5. python ccda/composite.py to compose the background and images
 
+### run segment_two_hand_ccda
+sh train.sh
+```
+python tools/train.py ./configs/swin/seg_twohands_ccda.py
+```
+or use multi-gpus
+``` 
+./tools/dist_train.sh ./configs/swin/seg_twohands_ccda.py 4
+```
 
 
 
