@@ -12,16 +12,13 @@ import pdb
 def visualize_segmentation(img, seg_result, alpha = 0.4):
     seg_color = np.zeros((img.shape))
     seg_color[seg_result == 0] = (0,    0,   0)     # background
-    seg_color[seg_result == 1] = (255,  0,   0)     # left_hand
-    seg_color[seg_result == 2] = (0,    0,   255)   # right_hand
-    seg_color[seg_result == 3] = (255,  0,   255)   # left_object1
-    seg_color[seg_result == 4] = (0,    255, 255)   # right_object1
-    seg_color[seg_result == 5] = (0,    255, 0)     # two_object1
-    seg_color[seg_result == 6] = (255,  204, 255)   # left_object2
-    seg_color[seg_result == 7] = (204,  255, 255)   # right_object2
-    seg_color[seg_result == 8] = (204,  255, 204)   # two_object2
-    vis = img * (1 - alpha) + seg_color * alpha
+    seg_color[seg_result == 1] = (255,  255,   255)     # left_hand
+    seg_color[seg_result == 2] = (255,  255,   255)     # left_hand
+
+    vis = img + seg_color
+    vis = np.clip(vis, a_min=0, a_max=255).astype(np.uint8)
     return vis
+
  
 
 
