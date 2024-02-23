@@ -13,24 +13,23 @@ from visualize import visualize_twohands
 import cv2
 import os
 
-# test file
-folder = 'seg_twohands_lama_ccda_3clsPaste_2labelPred'
-iter_n = '92000'
-best = True
-
-if best == True:
-    prefix = 'best_mIoU_iter_'
-else:
-    prefix='iter_'
-
+# # test file
+# folder = 'seg_twohands_lama_ccda_3clsPaste_2labelPred'
+# iter_n = '92000'
+# best = True
+#
+# if best == True:
+#     prefix = 'best_mIoU_iter_'
+# else:
+#     prefix='iter_'
+#
 
 parser = argparse.ArgumentParser(description="")
-parser.add_argument("--mode", default='obj1', type=str, help='options: obj1, obj2')
-parser.add_argument("--twohands_config_file", default=f'./work_dirs/{folder}/seg_twohands_ccda.py', type=str)
-parser.add_argument("--twohands_checkpoint_file", default=f'./work_dirs/{folder}/{prefix}{iter_n}.pth', type=str)
+parser.add_argument("--twohands_config_file", default=f'./work_dirs/seg_twohands_lama_ccda_3clsPaste_2labelPred/seg_twohands_ccda.py', type=str)
+parser.add_argument("--twohands_checkpoint_file", default=f'./work_dirs/seg_twohands_lama_ccda_3clsPaste_2labelPred/iter30000.pth', type=str)
 parser.add_argument("--remove_intermediate_images", default=False, type=bool)
 parser.add_argument("--input_video_folder",  default='test_videos', type=str)
-parser.add_argument("--output_video_folder",  default=f'./work_dirs/{folder}/{iter_n}', type=str)
+parser.add_argument("--output_video_folder",  default=f'./work_dirs/seg_twohands_lama_ccda_3clsPaste_2labelPred/30000', type=str)
 parser.add_argument("--save_image",  default=False, type=bool)
 
 args = parser.parse_args()
