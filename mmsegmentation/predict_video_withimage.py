@@ -14,8 +14,8 @@ import cv2
 import os
 
 # test file
-folder = 'seg_twohands_lama_ccda_3cls'
-iter_n = '86000'
+folder = 'seg_twohands_lama_ccda_3clsPaste_2labelPred'
+iter_n = '92000'
 best = True
 
 if best == True:
